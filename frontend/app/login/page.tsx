@@ -22,7 +22,16 @@ export default function LoginPage() {
         }
       );
 
-      localStorage.setItem("token", res.data.token);
+      await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+            email,
+            password,
+         },
+        {
+         withCredentials: true,
+        }
+    );
 
       alert("Login Successful");
 

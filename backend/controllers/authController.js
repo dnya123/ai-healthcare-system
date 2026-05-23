@@ -64,18 +64,48 @@ const loginUser = async (req, res) => {
       }
     );
 
-    res.status(200).json({
-      message: "Login successful",
-      token,
-    });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+
+  res.status(200).json({
+    message: "Login successful",
+  });
+
+  const logoutUser = async (req, res) => {
+
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({
+    message: "Logout successful",
+  });
+};
+
   } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
+const logoutUser = async (req, res) => {
+
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({
+    message: "Logout successful",
+  });
+};
 
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
 };
