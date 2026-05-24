@@ -2,6 +2,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
+// REGISTER USER
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -26,6 +28,7 @@ const registerUser = async (req, res) => {
       message: "User registered successfully",
       user,
     });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -33,8 +36,11 @@ const registerUser = async (req, res) => {
   }
 };
 
+
+// LOGIN USER
 const loginUser = async (req, res) => {
   try {
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -64,27 +70,17 @@ const loginUser = async (req, res) => {
       }
     );
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-  });
+    // STORE TOKEN IN COOKIE
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
 
-  res.status(200).json({
-    message: "Login successful",
-  });
-
-  const logoutUser = async (req, res) => {
-
-  res.cookie("token", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-
-  res.status(200).json({
-    message: "Logout successful",
-  });
-};
+    res.status(200).json({
+      message: "Login successful",
+      token,
+    });
 
   } catch (error) {
     res.status(500).json({
@@ -92,6 +88,9 @@ const loginUser = async (req, res) => {
     });
   }
 };
+
+
+// LOGOUT USER
 const logoutUser = async (req, res) => {
 
   res.cookie("token", "", {
@@ -103,6 +102,7 @@ const logoutUser = async (req, res) => {
     message: "Logout successful",
   });
 };
+
 
 module.exports = {
   registerUser,
