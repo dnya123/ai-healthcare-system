@@ -1,16 +1,33 @@
 const Appointment = require("../models/Appointment");
 
-const createAppointment = async (req, res) => {
+
+// CREATE APPOINTMENT
+const createAppointment = async (
+  req,
+  res
+) => {
 
   try {
 
+    const {
+      doctorName,
+      appointmentDate,
+      timeSlot,
+      symptoms,
+    } = req.body;
+
     const appointment =
       await Appointment.create({
+
         patient: req.user.id,
-        doctorName: req.body.doctorName,
-        appointmentDate:
-          req.body.appointmentDate,
-        timeSlot: req.body.timeSlot,
+
+        doctorName,
+
+        appointmentDate,
+
+        timeSlot,
+
+        symptoms,
       });
 
     res.status(201).json({
@@ -27,17 +44,55 @@ const createAppointment = async (req, res) => {
   }
 };
 
-const getAppointments = async (
-  req,
-  res
-) => {
+
+// GET MY APPOINTMENTS
+const getMyAppointments =
+  async (req, res) => {
+
+    try {
+
+      const appointments =
+        await Appointment.find({
+          patient: req.user.id,
+        }).sort({
+          createdAt: -1,
+        });
+
+      res.status(200).json(
+        appointments
+      );
+
+    } catch (error) {
+
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
+  const cancelAppointment = async (req, res) => {
 
   try {
 
-    const appointments =
-      await Appointment.find();
+    const appointment =
+      await Appointment.findById(
+        req.params.id
+      );
 
-    res.status(200).json(appointments);
+    if (!appointment) {
+
+      return res.status(404).json({
+        message: "Appointment not found",
+      });
+    }
+
+    appointment.status = "cancelled";
+
+    await appointment.save();
+
+    res.status(200).json({
+      message: "Appointment cancelled",
+    });
 
   } catch (error) {
 
@@ -47,7 +102,9 @@ const getAppointments = async (
   }
 };
 
+
 module.exports = {
   createAppointment,
-  getAppointments,
+  getMyAppointments,
+  cancelAppointment,
 };
