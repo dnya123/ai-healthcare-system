@@ -9,41 +9,40 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
+const handleLogin = async (e: any) => {
 
-    try {
+  e.preventDefault();
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+  try {
 
-      await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-            email,
-            password,
-         },
-        {
-         withCredentials: true,
-        }
+    const res = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
     );
 
-      alert("Login Successful");
+    alert("Login Successful");
 
-      window.location.href = "/dashboard";
-
-    } catch (error: any) {
-
-      alert(
-        error.response?.data?.message || "Login failed"
-      );
+    if (res.data.user.role === "doctor") {
+      window.location.href = "/doctor-dashboard";
+     } 
+    else {
+      window.location.href = "/home";
     }
-  };
+
+  } catch (error: any) {
+
+    alert(
+      error.response?.data?.message
+      || "Login failed"
+    );
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">

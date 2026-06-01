@@ -6,12 +6,13 @@ const {
   createAppointment,
   getMyAppointments,
   cancelAppointment,
-} = require(
-  "../controllers/appointmentController"
-);
+  getAllAppointments,
+  updateAppointmentStatus,
+} = require("../controllers/appointmentController");
 
 const {
   protect,
+  authorizeRoles,
 } = require(
   "../middleware/authMiddleware"
 );
@@ -30,6 +31,20 @@ router.get(
   "/my",
   protect,
   getMyAppointments
+);
+
+router.get(
+  "/all",
+  protect,
+  authorizeRoles("doctor"),
+  getAllAppointments
+);
+
+router.put(
+  "/status/:id",
+  protect,
+  authorizeRoles("doctor"),
+  updateAppointmentStatus
 );
 
 // cancel APPOINTMENTS

@@ -70,6 +70,66 @@ const getMyAppointments =
     }
   };
 
+  const getAllAppointments = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const appointments =
+     await Appointment.find()
+    .populate("patient", "name email")
+    .sort({ createdAt: -1 });
+
+    res.status(200).json(
+      appointments
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const updateAppointmentStatus =
+  async (req, res) => {
+
+    try {
+
+      const appointment =
+        await Appointment.findById(
+          req.params.id
+        );
+
+      if (!appointment) {
+
+        return res.status(404).json({
+          message:
+            "Appointment not found",
+        });
+      }
+
+      appointment.status =
+        req.body.status;
+
+      await appointment.save();
+
+      res.status(200).json({
+        message:
+          "Appointment updated",
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
   const cancelAppointment = async (req, res) => {
 
   try {
@@ -107,4 +167,6 @@ module.exports = {
   createAppointment,
   getMyAppointments,
   cancelAppointment,
+  getAllAppointments,
+  updateAppointmentStatus,
 };

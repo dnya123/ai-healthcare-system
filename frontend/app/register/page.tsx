@@ -86,6 +86,10 @@ export default function RegisterPage() {
             Register
           </Button>
 
+          alert("Registration Successful");
+
+            window.location.href = "/login";
+
         </form>
 
       </div>

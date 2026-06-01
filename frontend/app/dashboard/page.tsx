@@ -1,7 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import Sidebar from "@/components/dashboard/Sidebar";
 import DashboardCard from "@/components/dashboard/DashboardCard";
 
 export default function DashboardPage() {
+
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = async () => {
+
+    try {
+
+      const response = await axios.get(
+        "http://localhost:5000/api/appointments/my",
+        {
+          withCredentials: true,
+        }
+      );
+
+      setAppointments(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
 
   return (
 
@@ -19,7 +49,7 @@ export default function DashboardPage() {
 
           <DashboardCard
             title="Appointments"
-            value="12"
+            value={appointments.length.toString()}
           />
 
           <DashboardCard
