@@ -28,24 +28,35 @@ const handleLogin = async (e: any) => {
 
     alert("Login Successful");
 
-    if (res.data.user.role === "doctor") {
-      window.location.href = "/doctor-dashboard";
-     } 
-    else {
-      window.location.href = "/home";
+        if (res.data.user.role === "admin") {
+
+      window.location.href =
+        "/admin-dashboard";
+
+    } else if (
+      res.data.user.role === "doctor"
+    ) {
+
+      window.location.href =
+        "/doctor-dashboard";
+
+    } else {
+
+      window.location.href =
+        "/dashboard";
     }
 
-  } catch (error: any) {
+      } catch (error: any) {
 
-    alert(
-      error.response?.data?.message
-      || "Login failed"
-    );
-  }
-};
+        alert(
+          error.response?.data?.message
+          || "Login failed"
+        );
+      }
+    };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
 
       <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md">
 
