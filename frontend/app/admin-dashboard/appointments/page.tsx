@@ -58,6 +58,31 @@ export default function AppointmentsPage() {
       }
     };
 
+    const updateAppointmentStatus = async (
+  id: string,
+  status: string
+) => {
+
+  try {
+
+    await axios.put(
+      `http://localhost:5000/api/admin/appointments/${id}`,
+      { status },
+      {
+        withCredentials: true,
+      }
+    );
+
+    alert("Status Updated");
+
+    fetchAppointments();
+
+  } catch (error) {
+
+    console.log(error);
+  }
+};
+
   return (
 
     <div className="min-h-screen bg-gray-100 p-10">
@@ -96,13 +121,55 @@ export default function AppointmentsPage() {
                 }
               </p>
 
-              <p>
-                Status:
-                {" "}
-                {
-                  appointment.status
-                }
-              </p>
+              <p className="mb-3">
+  Status:
+  {" "}
+  <span className="font-semibold">
+    {appointment.status}
+  </span>
+</p>
+
+<select
+  id={`status-${appointment._id}`}
+  defaultValue={appointment.status}
+  className="border p-2 rounded-lg mr-3"
+>
+  <option value="pending">
+    Pending
+  </option>
+
+  <option value="confirmed">
+    Confirmed
+  </option>
+
+  <option value="completed">
+    Completed
+  </option>
+
+  <option value="cancelled">
+    Cancelled
+  </option>
+</select>
+
+<button
+  onClick={() => {
+
+    const status =
+      (
+        document.getElementById(
+          `status-${appointment._id}`
+        ) as HTMLSelectElement
+      ).value;
+
+    updateAppointmentStatus(
+      appointment._id,
+      status
+    );
+  }}
+  className="bg-blue-500 text-white px-5 py-2 rounded-xl mt-3"
+>
+  Update Status
+</button>
 
               <button
                 onClick={() =>

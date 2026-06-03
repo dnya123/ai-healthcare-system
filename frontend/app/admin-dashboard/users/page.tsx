@@ -26,11 +26,14 @@ export default function UsersPage() {
       setUsers(response.data);
 
     } catch (error) {
+
       console.log(error);
     }
   };
 
-  const deleteUser = async (id: string) => {
+  const deleteUser = async (
+    id: string
+  ) => {
 
     if (!confirm("Delete this user?")) {
       return;
@@ -48,6 +51,32 @@ export default function UsersPage() {
       fetchUsers();
 
     } catch (error) {
+
+      console.log(error);
+    }
+  };
+
+  const updateUserRole = async (
+    id: string,
+    role: string
+  ) => {
+
+    try {
+
+      await axios.put(
+        `http://localhost:5000/api/admin/users/${id}`,
+        { role },
+        {
+          withCredentials: true,
+        }
+      );
+
+      alert("Role Updated");
+
+      fetchUsers();
+
+    } catch (error) {
+
       console.log(error);
     }
   };
@@ -73,21 +102,55 @@ export default function UsersPage() {
               {user.name}
             </h2>
 
-            <p>{user.email}</p>
+            <p className="text-gray-600">
+              {user.email}
+            </p>
 
-            <p>
+            <p className="mt-2">
               Role:
               {" "}
-              <span className="font-semibold">
+              <span className="font-semibold text-blue-600">
                 {user.role}
               </span>
             </p>
+
+            <div className="mt-4">
+
+              <label className="block mb-2 font-medium">
+                Change Role
+              </label>
+
+              <select
+                defaultValue={user.role}
+                onChange={(e) =>
+                  updateUserRole(
+                    user._id,
+                    e.target.value
+                  )
+                }
+                className="border p-2 rounded-lg w-full"
+              >
+                <option value="patient">
+                  Patient
+                </option>
+
+                <option value="doctor">
+                  Doctor
+                </option>
+
+                <option value="admin">
+                  Admin
+                </option>
+
+              </select>
+
+            </div>
 
             <button
               onClick={() =>
                 deleteUser(user._id)
               }
-              className="bg-red-500 text-white px-5 py-2 rounded-xl mt-4"
+              className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl mt-4"
             >
               Delete User
             </button>

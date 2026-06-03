@@ -76,6 +76,51 @@ const deleteUser = async (
   }
 };
 
+// Update User
+const updateUser = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    user.name =
+      req.body.name || user.name;
+
+    user.email =
+      req.body.email || user.email;
+
+    user.role =
+      req.body.role || user.role;
+
+    await user.save();
+
+    res.status(200).json({
+      message:
+        "User updated successfully",
+      user,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 // Get All Appointments
 const getAllAppointments =
   async (req, res) => {
@@ -124,10 +169,51 @@ const deleteAppointment =
     }
   };
 
+  // Update Appointment
+const updateAppointment = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const appointment =
+      await Appointment.findById(
+        req.params.id
+      );
+
+    if (!appointment) {
+
+      return res.status(404).json({
+        message:
+          "Appointment not found",
+      });
+    }
+
+    appointment.status =
+      req.body.status;
+
+    await appointment.save();
+
+    res.status(200).json({
+      message:
+        "Appointment updated",
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getAllUsers,
   deleteUser,
+  updateUser,
   getAllAppointments,
   deleteAppointment,
+  updateAppointment,
 };

@@ -6,8 +6,10 @@ const {
   getDashboardStats,
   getAllUsers,
   deleteUser,
+  updateUser,
   getAllAppointments,
   deleteAppointment,
+  updateAppointment,
 } = require(
   "../controllers/adminController"
 );
@@ -40,6 +42,13 @@ router.delete(
   deleteUser
 );
 
+router.put(
+  "/users/:id",
+  protect,
+  authorizeRoles("admin"),
+  updateUser
+);
+
 router.get(
   "/appointments",
   protect,
@@ -52,6 +61,13 @@ router.delete(
   protect,
   authorizeRoles("admin"),
   deleteAppointment
+);
+
+router.put(
+  "/appointments/:id",
+  protect,
+  authorizeRoles("admin"),
+  updateAppointment
 );
 
 module.exports = router;
