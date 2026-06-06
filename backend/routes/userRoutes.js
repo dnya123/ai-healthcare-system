@@ -4,6 +4,8 @@ const {
   getCurrentUser,
   adminDashboard,
   doctorDashboard,
+  updateProfile,
+  changePassword,
 } = require("../controllers/userController");
 
 const {
@@ -28,5 +30,23 @@ router.get(
   authorizeRoles("doctor"),
   doctorDashboard
 );
+
+router.put(
+  "/profile",
+  protect,
+  updateProfile
+);
+
+router.put(
+  "/change-password",
+  protect,
+  changePassword
+);
+
+router.get("/test", (req, res) => {
+  res.json({
+    message: "User routes working",
+  });
+});
 
 module.exports = router;

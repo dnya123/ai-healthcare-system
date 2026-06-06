@@ -1,18 +1,124 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 export default function ProfilePage() {
+
+  const [user, setUser] = useState<any>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+
+    try {
+
+      const response = await axios.get(
+        "http://localhost:5000/api/users/me",
+        {
+          withCredentials: true,
+        }
+      );
+
+      setUser(response.data);
+
+      setName(response.data.name);
+      setEmail(response.data.email);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateProfile = async () => {
+
+    try {
+
+      const response = await axios.put(
+        "http://localhost:5000/api/users/profile",
+        {
+          name,
+          email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      alert(response.data.message);
+
+      fetchProfile();
+
+    } catch (error: any) {
+
+      alert(
+        error.response?.data?.message ||
+        "Update failed"
+      );
+    }
+  };
+
+  if (!user) {
+    return (
+      <div className="p-10">
+        Loading...
+      </div>
+    );
+  }
 
   return (
 
-    <div className="p-10">
+    <div className="min-h-screen bg-gray-100 p-10">
 
-      <h1 className="text-4xl font-bold mb-5">
+      <h1 className="text-5xl font-bold mb-10">
         My Profile
       </h1>
 
-      <div className="bg-white p-8 rounded-3xl shadow-lg">
+      <div className="bg-white p-8 rounded-3xl shadow-lg max-w-xl">
 
-        <p>Name: Dnyaneshwari</p>
+        <label className="block mb-2 font-semibold">
+          Name
+        </label>
 
-        <p>Email: dnyaneshwari@gmail.com</p>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
+          className="w-full border p-3 rounded-xl mb-5"
+        />
+
+        <label className="block mb-2 font-semibold">
+          Email
+        </label>
+
+        <input
+          type="email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+          className="w-full border p-3 rounded-xl mb-5"
+        />
+
+        <p className="mb-5">
+          Role:
+          {" "}
+          <strong>{user.role}</strong>
+        </p>
+
+        <button
+          onClick={updateProfile}
+          className="bg-blue-600 text-white px-6 py-3 rounded-xl"
+        >
+          Save Changes
+        </button>
 
       </div>
 

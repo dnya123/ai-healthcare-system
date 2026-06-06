@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 
 // PROTECT ROUTES
@@ -28,7 +29,9 @@ const protect = async (
       process.env.JWT_SECRET
     );
 
-    req.user = decoded;
+    req.user = await User.findById(
+      decoded.id
+    ).select("-password");
 
     next();
 
