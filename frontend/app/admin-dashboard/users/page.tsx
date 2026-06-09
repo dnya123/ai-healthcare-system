@@ -6,6 +6,7 @@ import axios from "axios";
 export default function UsersPage() {
 
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");  
 
   useEffect(() => {
     fetchUsers();
@@ -89,9 +90,28 @@ export default function UsersPage() {
         Manage Users
       </h1>
 
+      <input
+        type="text"
+        placeholder="Search by name or email"
+        value={search}
+        onChange={(e) =>
+          setSearch(e.target.value)
+        }
+        className="w-full p-3 border rounded-xl mb-6"
+      />
+
       <div className="grid gap-6">
 
-        {users.map((user: any) => (
+       {users
+          .filter((user: any) =>
+            user.name
+              .toLowerCase()
+              .includes(search.toLowerCase()) ||
+            user.email
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          )
+          .map((user: any) => (
 
           <div
             key={user._id}

@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
+  const router = useRouter();
 
   const [stats, setStats] = useState({
     users: 0,
@@ -35,6 +38,26 @@ export default function AdminDashboard() {
     }
   };
 
+    const logout = async () => {
+
+    try {
+
+      await axios.post(
+        "http://localhost:5000/api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      router.push("/login");
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+
   return (
 
     <div className="min-h-screen bg-gray-100 p-10">
@@ -42,6 +65,38 @@ export default function AdminDashboard() {
       <h1 className="text-5xl font-bold mb-10">
         Admin Dashboard
       </h1>
+
+      <div className="flex gap-4 mb-10">
+
+        <Link
+          href="/admin-dashboard/users"
+          className="bg-blue-500 text-white px-5 py-3 rounded-xl"
+        >
+          Manage Users
+        </Link>
+
+        <Link
+          href="/admin-dashboard/appointments"
+          className="bg-green-500 text-white px-5 py-3 rounded-xl"
+        >
+          Manage Appointments
+        </Link>
+
+        <Link
+          href="/profile"
+          className="bg-purple-500 text-white px-5 py-3 rounded-xl"
+        >
+          Profile
+        </Link>
+
+      <button
+        onClick={logout}
+        className="bg-red-500 text-white px-5 py-3 rounded-xl"
+      >
+        Logout
+      </button>
+
+      </div>
 
       <div className="grid md:grid-cols-3 gap-6">
 

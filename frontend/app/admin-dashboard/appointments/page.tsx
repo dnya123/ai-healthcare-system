@@ -8,6 +8,11 @@ export default function AppointmentsPage() {
   const [appointments,
     setAppointments] = useState([]);
 
+    const [search, setSearch] = useState("");
+
+    const [statusFilter, setStatusFilter] =
+      useState("all");
+
   useEffect(() => {
     fetchAppointments();
   }, []);
@@ -91,10 +96,73 @@ export default function AppointmentsPage() {
         Manage Appointments
       </h1>
 
+      <div className="flex gap-4 mb-6">
+
+        <input
+          type="text"
+          placeholder="Search patient or doctor..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+          className="flex-1 p-3 border rounded-xl"
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e) =>
+            setStatusFilter(e.target.value)
+          }
+          className="p-3 border rounded-xl"
+        >
+          <option value="all">
+            All Status
+          </option>
+
+          <option value="pending">
+            Pending
+          </option>
+
+          <option value="confirmed">
+            Confirmed
+          </option>
+
+          <option value="completed">
+            Completed
+          </option>
+
+          <option value="cancelled">
+            Cancelled
+          </option>
+
+        </select>
+
+      </div>
+
       <div className="grid gap-6">
 
-        {appointments.map(
-          (appointment: any) => (
+  {appointments
+    .filter((appointment: any) => {
+
+      const matchesSearch =
+        appointment.patient?.name
+          ?.toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        appointment.doctorName
+          ?.toLowerCase()
+          .includes(search.toLowerCase());
+
+      const matchesStatus =
+        statusFilter === "all" ||
+        appointment.status === statusFilter;
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+    })
+    .map((appointment: any) => (
 
             <div
               key={appointment._id}

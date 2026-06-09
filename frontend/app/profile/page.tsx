@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 export default function ProfilePage() {
 
@@ -78,6 +79,24 @@ export default function ProfilePage() {
       <h1 className="text-5xl font-bold mb-10">
         My Profile
       </h1>
+
+      <div className="flex gap-4 mb-8">
+
+      <Link
+        href="/history"
+        className="bg-blue-500 text-white px-5 py-3 rounded-xl"
+      >
+        Appointment History
+      </Link>
+
+      <Link
+        href="/change-password"
+        className="bg-green-500 text-white px-5 py-3 rounded-xl"
+      >
+        Change Password
+      </Link>
+
+    </div>
 
       <div className="bg-white p-8 rounded-3xl shadow-lg max-w-xl">
 

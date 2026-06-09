@@ -70,6 +70,8 @@ const loginUser = async (req, res) => {
       }
     );
 
+    
+
     // STORE TOKEN IN COOKIE
     res.cookie("token", token, {
       httpOnly: true,
