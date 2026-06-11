@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function AppointmentsPage() {
 
   const [appointments,
     setAppointments] = useState([]);
+  
+  const [loading, setLoading] = useState(true);
 
     const [search, setSearch] = useState("");
 
@@ -18,6 +22,7 @@ export default function AppointmentsPage() {
   }, []);
 
   const fetchAppointments = async () => {
+    setLoading(true);
 
     try {
 
@@ -30,8 +35,10 @@ export default function AppointmentsPage() {
         );
 
       setAppointments(response.data);
+      setLoading(false);
 
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -78,7 +85,7 @@ export default function AppointmentsPage() {
       }
     );
 
-    alert("Status Updated");
+    toast.success("Status Updated");
 
     fetchAppointments();
 
@@ -87,6 +94,10 @@ export default function AppointmentsPage() {
     console.log(error);
   }
 };
+
+    if (loading) {
+      return <LoadingSpinner />;
+    }
 
   return (
 

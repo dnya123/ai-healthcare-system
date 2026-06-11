@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function AdminDashboard() {
+
   const router = useRouter();
 
   const [stats, setStats] = useState({
@@ -14,11 +16,15 @@ export default function AdminDashboard() {
     appointments: 0,
   });
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchStats();
   }, []);
 
   const fetchStats = async () => {
+
+    setLoading(true);
 
     try {
 
@@ -35,10 +41,14 @@ export default function AdminDashboard() {
     } catch (error) {
 
       console.log(error);
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
-    const logout = async () => {
+  const logout = async () => {
 
     try {
 
@@ -57,6 +67,10 @@ export default function AdminDashboard() {
       console.log(error);
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
 
@@ -89,12 +103,12 @@ export default function AdminDashboard() {
           Profile
         </Link>
 
-      <button
-        onClick={logout}
-        className="bg-red-500 text-white px-5 py-3 rounded-xl"
-      >
-        Logout
-      </button>
+        <button
+          onClick={logout}
+          className="bg-red-500 text-white px-5 py-3 rounded-xl"
+        >
+          Logout
+        </button>
 
       </div>
 

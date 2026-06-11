@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
 
@@ -26,19 +27,23 @@ export default function RegisterPage() {
         }
       );
 
-      alert("Registration Successful");
+      toast.success(
+        "Registration Successful"
+      );
 
       window.location.href = "/login";
 
     } catch (error: any) {
 
-      alert(
-        error.response?.data?.message || "Registration failed"
+      toast.error(
+        error.response?.data?.message ||
+        "Registration failed"
       );
     }
   };
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
 
       <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md">
@@ -60,6 +65,7 @@ export default function RegisterPage() {
             onChange={(e) =>
               setName(e.target.value)
             }
+            required
           />
 
           <input
@@ -70,6 +76,7 @@ export default function RegisterPage() {
             onChange={(e) =>
               setEmail(e.target.value)
             }
+            required
           />
 
           <input
@@ -80,15 +87,12 @@ export default function RegisterPage() {
             onChange={(e) =>
               setPassword(e.target.value)
             }
+            required
           />
 
           <Button className="w-full">
             Register
           </Button>
-
-          alert("Registration Successful");
-
-            window.location.href = "/login";
 
         </form>
 

@@ -3,60 +3,62 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-const handleLogin = async (e: any) => {
+  const handleLogin = async (e: any) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
+    try {
 
-    const res = await axios.post(
-      "http://localhost:5000/api/auth/login",
-      {
-        email,
-        password,
-      },
-      {
-        withCredentials: true,
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      toast.success("Login Successful");
+
+      if (res.data.user.role === "admin") {
+
+        window.location.href =
+          "/admin-dashboard";
+
+      } else if (
+        res.data.user.role === "doctor"
+      ) {
+
+        window.location.href =
+          "/doctor-dashboard";
+
+      } else {
+
+        window.location.href =
+          "/dashboard";
       }
-    );
 
-    alert("Login Successful");
+    } catch (error: any) {
 
-        if (res.data.user.role === "admin") {
-
-      window.location.href =
-        "/admin-dashboard";
-
-    } else if (
-      res.data.user.role === "doctor"
-    ) {
-
-      window.location.href =
-        "/doctor-dashboard";
-
-    } else {
-
-      window.location.href =
-        "/dashboard";
+      toast.error(
+        error.response?.data?.message ||
+        "Login failed"
+      );
     }
+  };
 
-      } catch (error: any) {
+  return (
 
-        alert(
-          error.response?.data?.message
-          || "Login failed"
-        );
-      }
-    };
-
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
 
       <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md">
 

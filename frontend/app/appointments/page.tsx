@@ -41,9 +41,7 @@ export default function AppointmentsPage() {
         }
       );
 
-      alert(
-        response.data.message
-      );
+      toast.success(response.data.message);
 
       // CLEAR FORM
       setDoctorName("");
@@ -52,10 +50,10 @@ export default function AppointmentsPage() {
 
     } catch (error: any) {
 
-      alert(
-        error.response?.data?.message ||
-        "Something went wrong"
-      );
+      toast.error(
+      error.response?.data?.message ||
+      "Something went wrong"
+    );
     }
   };
 

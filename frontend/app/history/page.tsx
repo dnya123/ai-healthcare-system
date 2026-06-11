@@ -2,17 +2,21 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function HistoryPage() {
 
   const [appointments,
     setAppointments] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchAppointments();
   }, []);
 
   const fetchAppointments = async () => {
+    setLoading(true);
 
     try {
 
@@ -25,12 +29,17 @@ export default function HistoryPage() {
         );
 
       setAppointments(response.data);
+      setLoading(false);
 
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
 
+      if (loading) {
+      return <LoadingSpinner />;
+    }
   return (
 
     <div className="min-h-screen bg-gray-100 p-10">

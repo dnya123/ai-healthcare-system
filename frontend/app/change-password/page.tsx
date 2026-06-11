@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ChangePasswordPage() {
 
@@ -27,14 +28,14 @@ export default function ChangePasswordPage() {
           }
         );
 
-      alert(response.data.message);
+      toast.success(response.data.message);
 
       setCurrentPassword("");
       setNewPassword("");
 
     } catch (error: any) {
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
         "Something went wrong"
       );

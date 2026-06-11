@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import toast from "react-hot-toast";
 
 export default function ProfilePage() {
 
@@ -57,17 +56,17 @@ export default function ProfilePage() {
         }
       );
 
-      toast.success(response.data.message);
+      alert(response.data.message);
 
       fetchProfile();
 
     } catch (error: any) {
 
-  toast.error(
-    error.response?.data?.message ||
-    "Update failed"
-  );
-}
+      alert(
+        error.response?.data?.message ||
+        "Update failed"
+      );
+    }
   };
 
     if (loading) {

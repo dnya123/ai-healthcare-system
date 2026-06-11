@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function UsersPage() {
 
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");  
 
   useEffect(() => {
@@ -13,6 +16,7 @@ export default function UsersPage() {
   }, []);
 
   const fetchUsers = async () => {
+      setLoading(true);
 
     try {
 
@@ -25,8 +29,10 @@ export default function UsersPage() {
         );
 
       setUsers(response.data);
+      setLoading(false);
 
     } catch (error) {
+      setLoading(false);
 
       console.log(error);
     }
@@ -72,7 +78,7 @@ export default function UsersPage() {
         }
       );
 
-      alert("Role Updated");
+      toast.success("Role Updated");
 
       fetchUsers();
 
@@ -81,6 +87,9 @@ export default function UsersPage() {
       console.log(error);
     }
   };
+if (loading) {
+  return <LoadingSpinner />;
+}
 
   return (
 
