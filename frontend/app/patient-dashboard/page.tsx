@@ -218,55 +218,57 @@ export default function PatientDashboard() {
 
   ) : (
 
-    <div className="grid gap-4">
+    <div className="grid gap-6">
 
-      {appointments
-        .slice(0, 5)
-        .map((appointment: any) => (
+  {appointments.map((appointment: any) => (
 
-          <div
-            key={appointment._id}
-            className="bg-white p-5 rounded-3xl shadow-lg"
-          >
+    <div
+      key={appointment._id}
+      className="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition"
+    >
 
-            <h3 className="text-xl font-bold">
-              Dr. {appointment.doctorName}
-            </h3>
+      <div className="flex justify-between items-center mb-4">
 
-            <p>
-              Date:{" "}
-              {new Date(
-                appointment.appointmentDate
-              ).toLocaleDateString("en-GB")}
-            </p>
+        <h2 className="text-2xl font-bold">
+          👨‍⚕️ Dr. {appointment.doctorName}
+        </h2>
 
-            <p>
-              Time: {appointment.timeSlot}
-            </p>
+        <span
+          className={`px-4 py-1 rounded-full text-white text-sm font-semibold
+          ${
+            appointment.status === "pending"
+              ? "bg-yellow-500"
+              : appointment.status === "completed"
+              ? "bg-green-500"
+              : appointment.status === "confirmed"
+              ? "bg-blue-500"
+              : "bg-red-500"
+          }`}
+        >
+          {appointment.status}
+        </span>
 
-            <p className="mt-2">
+      </div>
 
-              Status:
+      <div className="grid md:grid-cols-2 gap-4">
 
-              <span
-                className={`ml-2 px-3 py-1 rounded-full text-white ${
-                  appointment.status === "pending"
-                    ? "bg-yellow-500"
-                    : appointment.status === "confirmed"
-                    ? "bg-blue-500"
-                    : appointment.status === "completed"
-                    ? "bg-green-500"
-                    : "bg-red-500"
-                }`}
-              >
-                {appointment.status}
-              </span>
+        <p>
+          📅 <strong>Date:</strong>{" "}
+          {new Date(
+            appointment.appointmentDate
+          ).toLocaleDateString("en-GB")}
+        </p>
 
-            </p>
+        <p>
+          ⏰ <strong>Time:</strong>{" "}
+          {appointment.timeSlot}
+        </p>
 
-          </div>
+      </div>
 
-        ))}
+    </div>
+
+       ))}
 
     </div>
 
@@ -274,7 +276,7 @@ export default function PatientDashboard() {
 
 </div>
 
-    </div>
+</div>
 
-  );
+);
 }
