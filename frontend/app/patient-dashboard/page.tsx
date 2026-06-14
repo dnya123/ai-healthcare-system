@@ -204,6 +204,75 @@ export default function PatientDashboard() {
         </div>
 
       </div>
+      <div className="mt-10">
+
+  <h2 className="text-3xl font-bold mb-6">
+    Recent Appointments
+  </h2>
+
+  {appointments.length === 0 ? (
+
+    <div className="bg-white p-6 rounded-3xl shadow-lg">
+      No appointments found
+    </div>
+
+  ) : (
+
+    <div className="grid gap-4">
+
+      {appointments
+        .slice(0, 5)
+        .map((appointment: any) => (
+
+          <div
+            key={appointment._id}
+            className="bg-white p-5 rounded-3xl shadow-lg"
+          >
+
+            <h3 className="text-xl font-bold">
+              Dr. {appointment.doctorName}
+            </h3>
+
+            <p>
+              Date:{" "}
+              {new Date(
+                appointment.appointmentDate
+              ).toLocaleDateString("en-GB")}
+            </p>
+
+            <p>
+              Time: {appointment.timeSlot}
+            </p>
+
+            <p className="mt-2">
+
+              Status:
+
+              <span
+                className={`ml-2 px-3 py-1 rounded-full text-white ${
+                  appointment.status === "pending"
+                    ? "bg-yellow-500"
+                    : appointment.status === "confirmed"
+                    ? "bg-blue-500"
+                    : appointment.status === "completed"
+                    ? "bg-green-500"
+                    : "bg-red-500"
+                }`}
+              >
+                {appointment.status}
+              </span>
+
+            </p>
+
+          </div>
+
+        ))}
+
+    </div>
+
+  )}
+
+</div>
 
     </div>
 
