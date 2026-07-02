@@ -9,8 +9,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "localhost",
-        port: "5000",
+        hostname: "ai-healthcare-system-8jn0.onrender.com",
         pathname: "/uploads/**",
       },
     ],
