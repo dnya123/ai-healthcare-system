@@ -5,6 +5,8 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Sidebar from "@/components/dashboard/Sidebar";
+
 
 export default function DoctorDashboard() {
   const router = useRouter();
@@ -47,11 +49,11 @@ const [statusFilter, setStatusFilter] =
     try {
 
       const response = await axios.get(
-        "http://localhost:5000/api/appointments/all",
-        {
-          withCredentials: true,
-        }
-      );
+  "http://localhost:5000/api/appointments/doctor",
+  {
+    withCredentials: true,
+  }
+);
 
       setAppointments(response.data);
 
@@ -111,10 +113,12 @@ const [statusFilter, setStatusFilter] =
   }
 };
 
-  return (
+return (
+  <div className="flex">
 
-    <div className="min-h-screen bg-gray-100 p-10">
+    <Sidebar />
 
+    <div className="flex-1 p-8">
       <h1 className="text-5xl font-bold mb-6">
         Doctor Dashboard
       </h1>
@@ -128,12 +132,7 @@ const [statusFilter, setStatusFilter] =
           My Profile
         </Link>
 
-        <button
-          onClick={logout}
-          className="bg-red-500 text-white px-5 py-3 rounded-xl"
-        >
-          Logout
-        </button>
+      
 
       </div>
 
@@ -278,7 +277,7 @@ const [statusFilter, setStatusFilter] =
               >
 
                 <h2 className="text-2xl font-bold mb-2">
-                  Dr. {appointment.doctorName}
+                  {appointment.doctor?.name}
                 </h2>
 
                 <p className="text-gray-600">
@@ -349,6 +348,8 @@ const [statusFilter, setStatusFilter] =
       )}
     
 
-    </div>
-  );
+       </div>
+
+      </div>
+    );
 }

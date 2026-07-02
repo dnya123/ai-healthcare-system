@@ -6,6 +6,8 @@ const {
   doctorDashboard,
   updateProfile,
   changePassword,
+  updateProfileImage,
+  getDoctors,
 } = require("../controllers/userController");
 
 const {
@@ -13,9 +15,12 @@ const {
   authorizeRoles,
 } = require("../middleware/authMiddleware");
 
+const upload = require("../middleware/upload");
+
 const router = express.Router();
 
 router.get("/me", protect, getCurrentUser);
+router.get("/doctors", getDoctors);
 
 router.get(
   "/admin",
@@ -41,6 +46,13 @@ router.put(
   "/change-password",
   protect,
   changePassword
+);
+
+router.put(
+  "/profile-image",
+  protect,
+  upload.single("image"),
+  updateProfileImage
 );
 
 router.get("/test", (req, res) => {

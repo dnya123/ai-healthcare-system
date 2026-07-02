@@ -5,9 +5,11 @@ const router = express.Router();
 const {
   createAppointment,
   getMyAppointments,
+  getDoctorAppointments,
   cancelAppointment,
   getAllAppointments,
   updateAppointmentStatus,
+  updateAppointment,
 } = require("../controllers/appointmentController");
 
 const {
@@ -34,9 +36,15 @@ router.get(
 );
 
 router.get(
+  "/doctor",
+  protect,
+  getDoctorAppointments
+);
+
+router.get(
   "/all",
   protect,
-  authorizeRoles("doctor"),
+  authorizeRoles("admin"),
   getAllAppointments
 );
 
@@ -52,6 +60,12 @@ router.put(
   "/cancel/:id",
   protect,
   cancelAppointment
+);
+
+router.put(
+  "/update/:id",
+  protect,
+  updateAppointment
 );
 
 module.exports = router;

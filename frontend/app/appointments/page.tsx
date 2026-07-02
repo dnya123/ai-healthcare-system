@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export default function AppointmentsPage() {
 
-  const [doctorName, setDoctorName] =
-    useState("");
+export default function AppointmentsPage() {
+  const [doctors, setDoctors] = useState<any[]>([]);
+
+  const [doctor, setDoctor] = useState("");
 
   const [appointmentDate,
     setAppointmentDate] =
@@ -15,6 +16,23 @@ export default function AppointmentsPage() {
 
   const [timeSlot, setTimeSlot] =
     useState("");
+
+    useEffect(() => {
+  fetchDoctors();
+}, []);
+
+const fetchDoctors = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:5000/api/users/doctors"
+    );
+
+    setDoctors(response.data);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const handleSubmit = async (
     e: any
@@ -28,7 +46,7 @@ export default function AppointmentsPage() {
         "http://localhost:5000/api/appointments",
 
         {
-          doctorName,
+          doctor,
           appointmentDate,
           timeSlot,
         },
@@ -45,7 +63,7 @@ export default function AppointmentsPage() {
       toast.success(response.data.message);
 
       // CLEAR FORM
-      setDoctorName("");
+      setDoctor("");
       setAppointmentDate("");
       setTimeSlot("");
 
@@ -73,43 +91,55 @@ export default function AppointmentsPage() {
           className="space-y-5"
         >
 
-          <input
-            type="text"
-            placeholder="Doctor Name"
-            className="w-full border p-4 rounded-xl"
-            value={doctorName}
-            onChange={(e) =>
-              setDoctorName(
-                e.target.value
-              )
-            }
-            required
-          />
+    <select
+      className="w-full border p-4 rounded-xl"
+      value={doctor}
+      onChange={(e)=>setDoctor(e.target.value)}
+      required
+    >
+      <option value="">Select Doctor</option>
+
+      {doctors.map((doctor: any) => (
+
+  <option
+    key={doctor._id}
+    value={doctor._id}
+  >
+    {doctor.name}
+  </option>
+
+      ))}
+    </select>
 
           <input
             type="date"
             className="w-full border p-4 rounded-xl"
+            min={new Date().toISOString().split("T")[0]}
             value={appointmentDate}
-            onChange={(e) =>
-              setAppointmentDate(
-                e.target.value
-              )
-            }
+            onChange={(e) => setAppointmentDate(e.target.value)}
             required
           />
+    <select
+      className="w-full border p-4 rounded-xl"
+      value={timeSlot}
+      onChange={(e) => setTimeSlot(e.target.value)}
+      required
+    >
 
-          <input
-            type="text"
-            placeholder="Time Slot"
-            className="w-full border p-4 rounded-xl"
-            value={timeSlot}
-            onChange={(e) =>
-              setTimeSlot(
-                e.target.value
-              )
-            }
-            required
-          />
+      <option value="">
+        Select Time
+      </option>
+
+      <option>09:00 AM</option>
+      <option>10:00 AM</option>
+      <option>11:00 AM</option>
+      <option>12:00 PM</option>
+      <option>02:00 PM</option>
+      <option>03:00 PM</option>
+      <option>04:00 PM</option>
+      <option>05:00 PM</option>
+
+    </select>
 
           <button
             type="submit"

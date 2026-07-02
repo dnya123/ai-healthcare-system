@@ -43,8 +43,7 @@ export default function LoginPage() {
 
       } else {
 
-        window.location.href =
-          "/dashboard";
+       window.location.href = "/patient-dashboard";
       }
 
     } catch (error: any) {

@@ -5,9 +5,15 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import DarkModeButton from "@/components/DarkModeButton";
+import {
+  FaUsers,
+  FaUserMd,
+  FaCalendarCheck,
+} from "react-icons/fa";
+import Sidebar from "@/components/dashboard/Sidebar";
 
 export default function AdminDashboard() {
-
   const router = useRouter();
 
   const [stats, setStats] = useState({
@@ -23,35 +29,26 @@ export default function AdminDashboard() {
   }, []);
 
   const fetchStats = async () => {
-
     setLoading(true);
 
     try {
-
-      const response =
-        await axios.get(
-          "http://localhost:5000/api/admin/stats",
-          {
-            withCredentials: true,
-          }
-        );
+      const response = await axios.get(
+        "http://localhost:5000/api/admin/stats",
+        {
+          withCredentials: true,
+        }
+      );
 
       setStats(response.data);
-
     } catch (error) {
-
       console.log(error);
-
     } finally {
-
       setLoading(false);
     }
   };
 
   const logout = async () => {
-
     try {
-
       await axios.post(
         "http://localhost:5000/api/auth/logout",
         {},
@@ -61,9 +58,7 @@ export default function AdminDashboard() {
       );
 
       router.push("/login");
-
     } catch (error) {
-
       console.log(error);
     }
   };
@@ -73,78 +68,81 @@ export default function AdminDashboard() {
   }
 
   return (
+  <div className="flex">
 
-    <div className="min-h-screen bg-gray-100 p-10">
+    <Sidebar />
 
-      <h1 className="text-5xl font-bold mb-10">
-        Admin Dashboard
-      </h1>
+    <div className="flex-1 p-10">
+      {/* Header */}
 
-      <div className="flex gap-4 mb-10">
+      <div className="flex justify-between items-start mb-8">
 
-        <Link
-          href="/admin-dashboard/users"
-          className="bg-blue-500 text-white px-5 py-3 rounded-xl"
-        >
-          Manage Users
-        </Link>
+        <div>
 
-        <Link
-          href="/admin-dashboard/appointments"
-          className="bg-green-500 text-white px-5 py-3 rounded-xl"
-        >
-          Manage Appointments
-        </Link>
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-white">
+            Admin Dashboard
+          </h1>
 
-        <Link
-          href="/profile"
-          className="bg-purple-500 text-white px-5 py-3 rounded-xl"
-        >
-          Profile
-        </Link>
+          <p className="text-gray-600 dark:text-gray-300 mt-3">
+            Today: {new Date().toLocaleDateString()}
+          </p>
 
-        <button
-          onClick={logout}
-          className="bg-red-500 text-white px-5 py-3 rounded-xl"
-        >
-          Logout
-        </button>
+          <p className="text-lg text-gray-600 dark:text-gray-300 mt-4">
+            Welcome Admin 👋
+            <br />
+            Manage users, doctors and appointments from one place.
+          </p>
+
+        </div>
+
+        
 
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* Dashboard Cards */}
 
-        <div className="bg-white p-6 rounded-3xl shadow-lg">
+      <div className="grid md:grid-cols-3 gap-6 mb-10">
 
-          <h2 className="text-xl font-semibold">
-            Total Users
-          </h2>
+        <div className="bg-blue-500 text-white p-6 rounded-3xl shadow-lg">
 
-          <p className="text-5xl font-bold mt-4">
+          <div className="flex items-center gap-3 mb-4">
+            <FaUsers size={40} />
+            <h2 className="text-xl font-semibold">
+              Total Users
+            </h2>
+          </div>
+
+          <p className="text-5xl font-bold">
             {stats.users}
           </p>
 
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-lg">
+        <div className="bg-green-500 text-white p-6 rounded-3xl shadow-lg">
 
-          <h2 className="text-xl font-semibold">
-            Total Doctors
-          </h2>
+          <div className="flex items-center gap-3 mb-4">
+            <FaUserMd size={40} />
+            <h2 className="text-xl font-semibold">
+              Total Doctors
+            </h2>
+          </div>
 
-          <p className="text-5xl font-bold mt-4">
+          <p className="text-5xl font-bold">
             {stats.doctors}
           </p>
 
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-lg">
+        <div className="bg-purple-500 text-white p-6 rounded-3xl shadow-lg">
 
-          <h2 className="text-xl font-semibold">
-            Total Appointments
-          </h2>
+          <div className="flex items-center gap-3 mb-4">
+            <FaCalendarCheck size={40} />
+            <h2 className="text-xl font-semibold">
+              Total Appointments
+            </h2>
+          </div>
 
-          <p className="text-5xl font-bold mt-4">
+          <p className="text-5xl font-bold">
             {stats.appointments}
           </p>
 
@@ -152,6 +150,40 @@ export default function AdminDashboard() {
 
       </div>
 
-    </div>
-  );
+      {/* Quick Actions */}
+
+      <h2 className="text-3xl font-bold mb-5 text-gray-900 dark:text-white">
+        Quick Actions
+      </h2>
+
+      <div className="grid md:grid-cols-4 gap-5">
+
+        <Link
+          href="/admin-dashboard/users"
+          className="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-2xl text-center transition"
+        >
+          Manage Users
+        </Link>
+
+        <Link
+          href="/admin-dashboard/appointments"
+          className="bg-green-600 hover:bg-green-700 text-white p-6 rounded-2xl text-center transition"
+        >
+          Manage Appointments
+        </Link>
+
+        <Link
+          href="/profile"
+          className="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-2xl text-center transition"
+        >
+          My Profile
+        </Link>
+
+
+      </div>
+
+        </div>
+
+  </div>
+);
 }

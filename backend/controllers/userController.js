@@ -106,10 +106,55 @@ const changePassword = async (req, res) => {
   }
 };
 
+const updateProfileImage = async (req, res) => {
+
+  try {
+
+    const user = await User.findById(req.user._id);
+
+    user.profileImage = req.file.filename;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Profile image uploaded successfully",
+      profileImage: user.profileImage,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Upload failed",
+    });
+
+  }
+
+};
+
+const getDoctors = async (req, res) => {
+  try {
+
+    const doctors = await User.find({
+      role: "doctor",
+    });
+
+    res.status(200).json(doctors);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
 module.exports = {
   getCurrentUser,
   adminDashboard,
   doctorDashboard,
   updateProfile,
   changePassword,
+  updateProfileImage,
+  getDoctors,
 };
