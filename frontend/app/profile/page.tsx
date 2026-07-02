@@ -25,7 +25,7 @@ export default function ProfilePage() {
       setLoading(true);
 
       const response = await axios.get(
-        "http://localhost:5000/api/users/me",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
         {
           withCredentials: true,
         }
@@ -45,7 +45,7 @@ export default function ProfilePage() {
   const updateProfile = async () => {
     try {
       await axios.put(
-        "http://localhost:5000/api/users/profile",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
         {
           name,
           email,
@@ -60,7 +60,7 @@ export default function ProfilePage() {
         formData.append("image", image);
 
         await axios.put(
-          "http://localhost:5000/api/users/profile-image",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile-image`,
           formData,
           {
             withCredentials: true,
@@ -129,7 +129,7 @@ export default function ProfilePage() {
               preview
                 ? preview
                 : user.profileImage
-                ? `http://localhost:5000/uploads/${user.profileImage}`
+                ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${user.profileImage}`
                 : "/default-avatar.png"
             }
             alt="Profile"

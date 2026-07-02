@@ -16,7 +16,7 @@ export default function DoctorPatientsPage() {
   const fetchPatients = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/appointments/doctor",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/doctor`,
         {
           withCredentials: true,
         }

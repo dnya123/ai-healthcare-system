@@ -28,7 +28,7 @@ export default function PatientDashboard() {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/appointments/my",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/my`,
         {
           withCredentials: true,
         }

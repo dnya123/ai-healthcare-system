@@ -14,7 +14,7 @@ export default function Sidebar() {
   const fetchUser = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/users/me",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
         {
           withCredentials: true,
         }

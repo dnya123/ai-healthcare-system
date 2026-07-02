@@ -49,7 +49,7 @@ const [statusFilter, setStatusFilter] =
     try {
 
       const response = await axios.get(
-  "http://localhost:5000/api/appointments/doctor",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/doctor`,
   {
     withCredentials: true,
   }
@@ -70,8 +70,7 @@ const [statusFilter, setStatusFilter] =
     try {
 
       await axios.put(
-        `http://localhost:5000/api/appointments/status/${id}`,
-        { status },
+  `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/status/${id}`,
         {
           withCredentials: true,
         }
@@ -98,7 +97,7 @@ const [statusFilter, setStatusFilter] =
   try {
 
     await axios.post(
-      "http://localhost:5000/api/auth/logout",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
       {},
       {
         withCredentials: true,

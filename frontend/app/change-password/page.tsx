@@ -18,7 +18,7 @@ export default function ChangePasswordPage() {
 
       const response =
         await axios.put(
-          "http://localhost:5000/api/users/change-password",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/change-password`,
           {
             currentPassword,
             newPassword,

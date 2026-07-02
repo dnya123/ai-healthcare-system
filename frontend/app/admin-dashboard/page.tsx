@@ -33,7 +33,7 @@ export default function AdminDashboard() {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/stats",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/stats`,
         {
           withCredentials: true,
         }
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
         {},
         {
           withCredentials: true,

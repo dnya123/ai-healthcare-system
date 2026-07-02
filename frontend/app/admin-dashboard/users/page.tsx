@@ -24,7 +24,7 @@ export default function UsersPage() {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/users",
+        `${process.env.NEXT_PUBLIC_API_URL}api/admin/users`,
         {
           withCredentials: true,
         }
@@ -43,7 +43,7 @@ export default function UsersPage() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/admin/users/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/${id}`,
         {
           withCredentials: true,
         }
@@ -64,7 +64,7 @@ export default function UsersPage() {
   ) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/users/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/${id}`,
         { role },
         {
           withCredentials: true,

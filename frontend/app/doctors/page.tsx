@@ -14,7 +14,7 @@ export default function DoctorsPage() {
   const fetchDoctors = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/users/doctors"
+        "/api/users/doctors"
       );
 
       setDoctors(res.data);

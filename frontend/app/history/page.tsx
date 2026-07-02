@@ -38,7 +38,7 @@ export default function HistoryPage() {
       try {
 
         await axios.put(
-          `http://localhost:5000/api/appointments/cancel/${id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/cancel/${id}`,
           {},
           {
             withCredentials: true,
@@ -67,7 +67,7 @@ export default function HistoryPage() {
   try {
 
     await axios.put(
-      `http://localhost:5000/api/appointments/update/${editingId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/update/${editingId}`,
       {
         doctorName,
         appointmentDate,
@@ -99,7 +99,7 @@ export default function HistoryPage() {
 
       const response =
        await axios.get(
-        `http://localhost:5000/api/appointments/my?page=${currentPage}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/my?page=${currentPage}`,
         {
           withCredentials: true,
         }

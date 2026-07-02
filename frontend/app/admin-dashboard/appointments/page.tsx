@@ -24,7 +24,7 @@ export default function AppointmentsPage() {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/appointments",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/appointments`,
         {
           withCredentials: true,
         }
@@ -43,7 +43,7 @@ export default function AppointmentsPage() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/admin/appointments/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/appointments/${id}`,
         {
           withCredentials: true,
         }
@@ -63,7 +63,7 @@ export default function AppointmentsPage() {
   ) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/appointments/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/appointments/${id}`,
         { status },
         {
           withCredentials: true,

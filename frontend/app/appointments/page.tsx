@@ -24,8 +24,8 @@ export default function AppointmentsPage() {
 const fetchDoctors = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/users/doctors"
-    );
+  `${process.env.NEXT_PUBLIC_API_URL}/api/users/doctors`
+);
 
     setDoctors(response.data);
 
@@ -43,8 +43,7 @@ const fetchDoctors = async () => {
     try {
 
       const response = await axios.post(
-        "http://localhost:5000/api/appointments",
-
+      `${process.env.NEXT_PUBLIC_API_URL}/api/appointments`,
         {
           doctor,
           appointmentDate,

@@ -7,7 +7,7 @@ export default function LogoutButton() {
   const handleLogout = async () => {
 
     await axios.post(
-      "http://localhost:5000/api/auth/logout",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
       {},
       {
         withCredentials: true,

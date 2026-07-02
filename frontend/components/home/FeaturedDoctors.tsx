@@ -15,7 +15,7 @@ export default function FeaturedDoctors() {
   const fetchDoctors = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/users/doctors"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/doctors`
       );
 
       setDoctors(response.data);
@@ -52,7 +52,7 @@ export default function FeaturedDoctors() {
                 <Image
                   src={
                     doctor.profileImage
-                      ? `http://localhost:5000/uploads/${doctor.profileImage}`
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${doctor.profileImage}`
                       : "/default-avatar.png"
                   }
                   alt={doctor.name}

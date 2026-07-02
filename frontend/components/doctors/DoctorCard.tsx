@@ -11,7 +11,7 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
       <img
         src={
           doctor.profileImage
-            ? `http://localhost:5000/uploads/${doctor.profileImage}`
+            ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${doctor.profileImage}`
             : "/doctor-placeholder.png"
         }
         alt={doctor.name}
